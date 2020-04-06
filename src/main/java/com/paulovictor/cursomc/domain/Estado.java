@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.paulovictor.cursomc.domain.Cidade;
 
 @Entity
@@ -17,6 +18,7 @@ public class Estado implements Serializable {
     private Integer id;
     private String nome;
 
+    @JsonBackReference
     @OneToMany(mappedBy="estado")
     private List<Cidade> cidades = new ArrayList<>();
 
