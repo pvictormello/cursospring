@@ -1,6 +1,8 @@
 package com.paulovictor.cursomc.services;
 
 import com.paulovictor.cursomc.domain.Categoria;
+import com.paulovictor.cursomc.domain.Categoria;
+import com.paulovictor.cursomc.domain.Cliente;
 import com.paulovictor.cursomc.dto.CategoriaDTO;
 import com.paulovictor.cursomc.exceptions.DataIntegrityException;
 import com.paulovictor.cursomc.exceptions.ObjectNotFoundException;
@@ -32,9 +34,10 @@ public class CategoriaService {
         return repo.save(obj);
     }
 
-    public Categoria update(Categoria obj){
-        find(obj.getId());
-        return repo.save(obj);
+    public Categoria update(Categoria obj) {
+        Categoria newObj = find(obj.getId());
+        updateData(newObj, obj);
+        return repo.save(newObj);
     }
 
     public void delete(Integer id) {
@@ -59,5 +62,9 @@ public class CategoriaService {
 
     public Categoria fromDTO(CategoriaDTO objDTO){
         return new Categoria(objDTO.getId(), objDTO.getNome());
+    }
+
+    private void updateData(Categoria newObj, Categoria obj){
+        newObj.setNome(obj.getNome());
     }
 }
