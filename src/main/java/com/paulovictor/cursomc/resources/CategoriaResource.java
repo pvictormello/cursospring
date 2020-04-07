@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class CategoriaResource {
     private CategoriaService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> find(@PathVariable Integer id) {
+    public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 
         Categoria obj = service.find(id);
 
@@ -30,12 +31,21 @@ public class CategoriaResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
+        Categoria obj = service.fromDTO(objDTO);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(obj.getId()).toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id) {
+        Categoria obj = service.fromDTO(objDTO);
+        obj.setId(id);
+        obj = service.update(obj);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/{id}")
