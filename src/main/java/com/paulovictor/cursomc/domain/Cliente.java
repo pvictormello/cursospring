@@ -13,7 +13,7 @@ public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private  Integer id;
+    private Integer id;
     private String nome;
     private String email;
     private String cpfOuCnpj;
@@ -37,7 +37,7 @@ public class Cliente implements Serializable {
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
-        this.tipo = tipo.getCod();
+        this.tipo = (tipo == null) ? null : tipo.getCod();
     }
 
     public Integer getId() {
