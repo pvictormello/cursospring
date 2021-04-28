@@ -1,4 +1,4 @@
-package com.paulovictor.cursomc.exceptions;
+package com.paulovictor.cursomc.services.exceptions;
 
 public class DataIntegrityException extends RuntimeException {
     private static final long serialVersionUID = 1L;

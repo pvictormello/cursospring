@@ -2,15 +2,17 @@ package com.paulovictor.cursomc.services;
 
 import com.paulovictor.cursomc.domain.*;
 import com.paulovictor.cursomc.domain.Cliente;
+import com.paulovictor.cursomc.domain.enums.Perfil;
 import com.paulovictor.cursomc.domain.enums.TipoCliente;
 import com.paulovictor.cursomc.dto.ClienteDTO;
 import com.paulovictor.cursomc.dto.ClienteNewDTO;
-import com.paulovictor.cursomc.exceptions.DataIntegrityException;
-import com.paulovictor.cursomc.exceptions.ObjectNotFoundException;
+import com.paulovictor.cursomc.security.UserSS;
+import com.paulovictor.cursomc.services.exceptions.AuthorizationException;
+import com.paulovictor.cursomc.services.exceptions.DataIntegrityException;
+import com.paulovictor.cursomc.services.exceptions.ObjectNotFoundException;
 import com.paulovictor.cursomc.repositories.ClienteRepository;
 import com.paulovictor.cursomc.repositories.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.ClassesKey;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +37,12 @@ public class ClienteService {
     private BCryptPasswordEncoder pe;
 
     public Cliente find(Integer id) {
+
+        UserSS user = UserService.authenticated();
+        if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado");
+        }
+
         Optional<Cliente> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));

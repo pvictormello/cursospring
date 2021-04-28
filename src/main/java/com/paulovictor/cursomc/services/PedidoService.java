@@ -1,12 +1,10 @@
 package com.paulovictor.cursomc.services;
 
-import com.paulovictor.cursomc.domain.Cliente;
 import com.paulovictor.cursomc.domain.ItemPedido;
 import com.paulovictor.cursomc.domain.PagamentoComBoleto;
 import com.paulovictor.cursomc.domain.Pedido;
 import com.paulovictor.cursomc.domain.enums.EstadoPagamento;
-import com.paulovictor.cursomc.exceptions.ObjectNotFoundException;
-import com.paulovictor.cursomc.repositories.ClienteRepository;
+import com.paulovictor.cursomc.services.exceptions.ObjectNotFoundException;
 import com.paulovictor.cursomc.repositories.ItemPedidoRepository;
 import com.paulovictor.cursomc.repositories.PagamentoRepository;
 import com.paulovictor.cursomc.repositories.PedidoRepository;

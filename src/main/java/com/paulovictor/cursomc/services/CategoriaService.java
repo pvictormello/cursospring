@@ -1,11 +1,9 @@
 package com.paulovictor.cursomc.services;
 
 import com.paulovictor.cursomc.domain.Categoria;
-import com.paulovictor.cursomc.domain.Categoria;
-import com.paulovictor.cursomc.domain.Cliente;
 import com.paulovictor.cursomc.dto.CategoriaDTO;
-import com.paulovictor.cursomc.exceptions.DataIntegrityException;
-import com.paulovictor.cursomc.exceptions.ObjectNotFoundException;
+import com.paulovictor.cursomc.services.exceptions.DataIntegrityException;
+import com.paulovictor.cursomc.services.exceptions.ObjectNotFoundException;
 import com.paulovictor.cursomc.repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

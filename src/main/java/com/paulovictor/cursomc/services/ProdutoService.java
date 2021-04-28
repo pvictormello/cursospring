@@ -2,7 +2,7 @@ package com.paulovictor.cursomc.services;
 
 import com.paulovictor.cursomc.domain.Categoria;
 import com.paulovictor.cursomc.domain.Produto;
-import com.paulovictor.cursomc.exceptions.ObjectNotFoundException;
+import com.paulovictor.cursomc.services.exceptions.ObjectNotFoundException;
 import com.paulovictor.cursomc.repositories.CategoriaRepository;
 import com.paulovictor.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

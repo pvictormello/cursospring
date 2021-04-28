@@ -1,4 +1,4 @@
-package com.paulovictor.cursomc.exceptions;
+package com.paulovictor.cursomc.services.exceptions;
 
 import java.security.PublicKey;
 
