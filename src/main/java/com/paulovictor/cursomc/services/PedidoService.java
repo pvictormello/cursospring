@@ -1,11 +1,12 @@
 package com.paulovictor.cursomc.services;
 
-import com.paulovictor.cursomc.domain.Categoria;
+import com.paulovictor.cursomc.domain.Cliente;
 import com.paulovictor.cursomc.domain.ItemPedido;
 import com.paulovictor.cursomc.domain.PagamentoComBoleto;
 import com.paulovictor.cursomc.domain.Pedido;
 import com.paulovictor.cursomc.domain.enums.EstadoPagamento;
 import com.paulovictor.cursomc.exceptions.ObjectNotFoundException;
+import com.paulovictor.cursomc.repositories.ClienteRepository;
 import com.paulovictor.cursomc.repositories.ItemPedidoRepository;
 import com.paulovictor.cursomc.repositories.PagamentoRepository;
 import com.paulovictor.cursomc.repositories.PedidoRepository;
@@ -29,6 +30,10 @@ public class PedidoService {
     private ProdutoService produtoService;
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
+    @Autowired
+    private ClienteService clienteService;
+    @Autowired
+    private EmailService emailService;
 
     public Pedido find(Integer id) {
         Optional<Pedido> obj = repo.findById(id);
@@ -40,6 +45,7 @@ public class PedidoService {
     public Pedido insert(Pedido obj) {
         obj.setId(null);
         obj.setInstante(new Date());
+        obj.setCliente(clienteService.find(obj.getCliente().getId()));
         obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
         obj.getPagamento().setPedido(obj);
         if (obj.getPagamento() instanceof PagamentoComBoleto) {
@@ -51,10 +57,14 @@ public class PedidoService {
         pagamentoRepository.save(obj.getPagamento());
         for (ItemPedido ip : obj.getItens()) {
             ip.setDesconto(0.00);
-            ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+            ip.setProduto(produtoService.find(ip.getProduto().getId()));
+            ip.setPreco(ip.getProduto().getPreco());
             ip.setPedido(obj);
         }
         itemPedidoRepository.saveAll(obj.getItens());
+//        emailService.sendOrderConfirmationEmail(obj);
+        System.out.println(obj);
         return obj;
+
     }
 }
