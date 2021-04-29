@@ -7,6 +7,7 @@ import com.paulovictor.cursomc.dto.CategoriaDTO;
 import com.paulovictor.cursomc.services.ClienteService;
 import com.paulovictor.cursomc.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -39,4 +40,14 @@ public class PedidoResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @GetMapping()
+    public ResponseEntity<Page<Pedido>> findPage(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                       @RequestParam(name = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+                                                       @RequestParam(name = "orderBy", defaultValue = "instante") String orderBy,
+                                                       @RequestParam(name = "direction", defaultValue = "DESC") String direction) {
+
+        Page<Pedido> list = service.findPage(page, linesPerPage, orderBy, direction);
+
+        return ResponseEntity.ok().body(list);
+    }
 }
